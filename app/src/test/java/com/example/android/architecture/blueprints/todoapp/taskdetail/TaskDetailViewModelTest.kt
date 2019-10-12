@@ -134,22 +134,6 @@ class TaskDetailViewModelTest {
 
     @Test
     fun loadTask_loading() {
-        // TODO
-    }
-
-    @Test
-    fun deleteTask() {
-        assertThat(tasksRepository.tasksServiceData.containsValue(task)).isTrue()
-        taskDetailViewModel.start(task.id)
-
-        // When the deletion of a task is requested
-        taskDetailViewModel.deleteTask()
-
-        assertThat(tasksRepository.tasksServiceData.containsValue(task)).isFalse()
-    }
-
-    @Test
-    fun loadTask_loading_solution() {
         // Pause dispatcher so we can verify initial values
         mainCoroutineRule.pauseDispatcher()
 
@@ -164,5 +148,16 @@ class TaskDetailViewModelTest {
 
         // Then progress indicator is hidden
         assertThat(getValue(taskDetailViewModel.dataLoading)).isFalse()
+    }
+
+    @Test
+    fun deleteTask() {
+        assertThat(tasksRepository.tasksServiceData.containsValue(task)).isTrue()
+        taskDetailViewModel.start(task.id)
+
+        // When the deletion of a task is requested
+        taskDetailViewModel.deleteTask()
+
+        assertThat(tasksRepository.tasksServiceData.containsValue(task)).isFalse()
     }
 }

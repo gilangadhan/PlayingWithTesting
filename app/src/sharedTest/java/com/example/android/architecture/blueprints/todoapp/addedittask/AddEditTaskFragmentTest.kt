@@ -98,7 +98,10 @@ class AddEditTaskFragmentTest {
         onView(withId(R.id.fab_save_task)).perform(click())
 
         // THEN - Verify that the repository saved the task
-        // TODO
+        val tasks = (repository.getTasksBlocking(true) as Result.Success).data
+        assertEquals(tasks.size, 1)
+        assertEquals(tasks[0].title, "title")
+        assertEquals(tasks[0].description, "description")
     }
 
     @Test
@@ -125,23 +128,5 @@ class AddEditTaskFragmentTest {
         scenario.onFragment {
             Navigation.setViewNavController(it.view!!, navController)
         }
-    }
-
-    @Test
-    fun validTask_isSaved_solution() {
-        // GIVEN - On the "Add Task" screen.
-        val navController = mock(NavController::class.java)
-        launchFragment(navController)
-
-        // WHEN - Valid title and description combination and click save
-        onView(withId(R.id.add_task_title)).perform(replaceText("title"))
-        onView(withId(R.id.add_task_description)).perform(replaceText("description"))
-        onView(withId(R.id.fab_save_task)).perform(click())
-
-        // THEN - Verify that the repository saved the task
-        val tasks = (repository.getTasksBlocking(true) as Result.Success).data
-        assertEquals(tasks.size, 1)
-        assertEquals(tasks[0].title, "title")
-        assertEquals(tasks[0].description, "description")
     }
 }
